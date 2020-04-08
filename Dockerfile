@@ -9,6 +9,6 @@ RUN pip install \
   kubernetes \
   jinja2
 
-ADD * /src/
+ADD . /src/
 
 CMD /src/operator

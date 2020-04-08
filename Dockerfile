@@ -11,4 +11,6 @@ RUN pip install \
 
 ADD . /src/
 
+WORKDIR /src
+
 CMD /src/operator

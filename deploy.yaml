@@ -1,0 +1,132 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: dns-system
+
+---
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  namespace: dns-system
+  name: rpzupdatr-cfg
+data:
+  zone-namespace: "dns-system"
+  zone-configmap: "rpzupdatr-zone"
+  zone-key: "rpz.local.rpz"
+
+---
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  namespace: dns-system
+  name: rpzupdatr-zone
+data:
+  rpz.local.rpz: ""
+
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: rpzupdatr
+  namespace: dns-system
+
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1beta1
+metadata:
+  name: rpzupdatr
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: rpzupdatr
+subjects:
+  - kind: ServiceAccount
+    name: rpzupdatr
+    namespace: dns-system
+
+---
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: ClusterRole
+metadata:
+  name: rpzupdatr
+rules:
+  - apiGroups:
+      - ""
+    resources:
+      - services
+    verbs:
+      - get
+      - list
+      - watch
+---
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1beta1
+metadata:
+  name: rpzupdatr
+  namespace: dns-system
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: rpzupdatr
+subjects:
+  - kind: ServiceAccount
+    name: rpzupdatr
+    namespace: dns-system
+---
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: Role
+metadata:
+  name: rpzupdatr
+  namespace: dns-system
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - configmaps
+  verbs:
+  - get
+  - list
+  - watch
+  - patch
+  - create
+  - update
+  - delete
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  namespace: dns-system
+  name: rpzupdatr
+  labels:
+    app: rpzupdatr
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rpzupdatr
+  template:
+    metadata:
+      labels:
+        app: rpzupdatr
+    spec:
+      serviceAccountName: rpzupdatr
+      containers:
+        - name: rpzupdatr
+          image: docker.io/illallangi/rpzupdatr:latest
+          env:
+            - name: ZONE_CONFIGMAP
+              valueFrom:
+                configMapKeyRef:
+                  name: rpzupdatr-cfg
+                  key: zone-configmap
+            - name: ZONE_NAMESPACE
+              valueFrom:
+                configMapKeyRef:
+                  name: rpzupdatr-cfg
+                  key: zone-namespace
+            - name: ZONE_KEY
+              valueFrom:
+                configMapKeyRef:
+                  name: rpzupdatr-cfg
+                  key: zone-key

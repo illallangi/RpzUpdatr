@@ -1,0 +1,17 @@
+$TTL 1m;
+$ORIGIN {{ origin }}.;
+@         SOA   {{ nameserver }}. {{ email }} ( {{ serial }} {{ refresh }} {{ retry }} {{ expire }} {{ ttl }} )
+          NS    {{ nameserver }}.
+{% for key, value in a_records.items() %}
+{{ key }} A {{ value }}
+{% endfor %}
+{% for key, value in ptr_records.items() %}
+{{ key.split('.') | reverse() | join('.') }}.in-addr.arpa PTR {{ value }}.
+{% endfor %}
+{% for key, value in cname_records.items() %}
+{% if value in a_records %}
+{{ key }} A {{ a_records[value] }}
+{% else %}
+{{ key }} CNAME {{ value }}.
+{% endif %}
+{% endfor %}

@@ -11,7 +11,7 @@ import time
 import textwrap
 import jinja2
 
-def main(argv):
+def main():
   starttime=time.time()
   timeout = float(os.environ.get("UPDATE_INTERVAL", 15))
   while True: 
@@ -84,4 +84,4 @@ def rpzUpdate():
     print(textwrap.indent(body, "{0}      ".format(datetime.datetime.now().isoformat())), end='')
 
 if __name__ == "__main__":
-  main(sys.argv)
+  main()

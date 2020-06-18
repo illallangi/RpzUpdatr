@@ -53,7 +53,7 @@ def rpzUpdate():
               ptr_records[ingress.ip] = svc.metadata.annotations.get(DOMAIN_ANNOTATION)
 
   print("{0}    Rendering {1} records into {2} zone: ".format(datetime.datetime.now().isoformat(), len(a_records) + len(ptr_records), os.environ.get("ZONE_ORIGIN", "rpz.local")), end='', flush=True)
-  environment = jinja2.Environment(loader=jinja2.FileSystemLoader('templates'), trim_blocks=True)
+  environment = jinja2.Environment(loader=jinja2.FileSystemLoader(os.path.join(os.path.abspath(os.path.dirname(__file__)),'templates')), trim_blocks=True)
   template = environment.get_template('zone.j2')
   body = template.render(
     origin=os.environ.get("ZONE_ORIGIN", "rpz.local"),

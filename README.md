@@ -1,4 +1,7 @@
 # RpzUpdatr
+[![Docker Pulls](https://img.shields.io/docker/pulls/illallangi/rpzupdatr.svg)(https://hub.docker.com/r/illallangi/rpzupdatr)
+[![Image Size](https://images.microbadger.com/badges/image/illallangi/rpzupdatr.svg)(https://microbadger.com/images/illallangi/rpzupdatr)
+![Build](https://github.com/illallangi/RpzUpdatr/workflows/Build/badge.svg)
 
 Updates a ConfigMap with a RPZ file for DNS based on attributes on kubernetes Services.
 

@@ -23,11 +23,11 @@ ARG BUILD_DATE
 LABEL maintainer="Andrew Cole <andrew.cole@illallangi.com>" \
       org.label-schema.build-date=${BUILD_DATE} \
       org.label-schema.description="Updates a ConfigMap with a RPZ file for DNS based on attributes on kubernetes Services" \
-      org.label-schema.name="RpzUpdatr" \
+      org.label-schema.name="RPZUpdatr" \
       org.label-schema.schema-version="1.0" \
-      org.label-schema.url="http://github.com/illallangi/RpzUpdatr" \
-      org.label-schema.usage="https://github.com/illallangi/RpzUpdatr/blob/master/README.md" \
+      org.label-schema.url="http://github.com/illallangi/RPZUpdatr" \
+      org.label-schema.usage="https://github.com/illallangi/RPZUpdatr/blob/master/README.md" \
       org.label-schema.vcs-ref=$VCS_REF \
-      org.label-schema.vcs-url="https://github.com/illallangi/RpzUpdatr" \
+      org.label-schema.vcs-url="https://github.com/illallangi/RPZUpdatr" \
       org.label-schema.vendor="Illallangi Enterprises" \
       org.label-schema.version=$VERSION
